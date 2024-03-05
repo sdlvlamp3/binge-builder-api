@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_03_195833) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_04_192345) do
+  create_table "MovieShow_Genres", force: :cascade do |t|
+    t.integer "movie_show_id", null: false
+    t.integer "genre_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["genre_id"], name: "index_MovieShow_Genres_on_genre_id"
+    t.index ["movie_show_id"], name: "index_MovieShow_Genres_on_movie_show_id"
+  end
+
   create_table "genres", force: :cascade do |t|
     t.string "genre_type"
     t.datetime "created_at", null: false
@@ -23,15 +32,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_03_195833) do
     t.datetime "release_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "msgenres", force: :cascade do |t|
-    t.integer "movie_show_id", null: false
-    t.integer "genre_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["genre_id"], name: "index_msgenres_on_genre_id"
-    t.index ["movie_show_id"], name: "index_msgenres_on_movie_show_id"
   end
 
   create_table "playlist_items", force: :cascade do |t|
@@ -57,10 +57,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_03_195833) do
     t.string "password"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "email"
   end
 
-  add_foreign_key "msgenres", "genres"
-  add_foreign_key "msgenres", "movie_shows"
+  add_foreign_key "MovieShow_Genres", "genres"
+  add_foreign_key "MovieShow_Genres", "movie_shows"
   add_foreign_key "playlist_items", "movie_shows"
   add_foreign_key "playlist_items", "playlists"
   add_foreign_key "playlists", "users"
