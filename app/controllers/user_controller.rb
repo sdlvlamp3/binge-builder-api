@@ -35,4 +35,10 @@ class UserController < ApplicationController
             render json: { error: 'Unable to delete user.' }
         end
     end
+
+    private
+
+    def user_params
+        params.require(:user).permit(:username, :email, :password)
+    end
 end
