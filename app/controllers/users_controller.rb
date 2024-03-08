@@ -20,7 +20,7 @@ class UsersController < ApplicationController
 
     def update
         user = User.find(params[:id])
-        if user.udpate(user_params)
+        if user.update(user_params)
              render json: user
         else
             render json: { error: 'Unable to update user.' }
