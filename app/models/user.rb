@@ -1,4 +1,7 @@
 class User < ApplicationRecord
+
+has_secure_password
+    
 # Associations
     has_many :playlists
 
