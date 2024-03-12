@@ -5,7 +5,7 @@ class UsersController < ApplicationController
 
     def index
         users = User.all
-        render json: UserBlueprint.render(users)
+        render json: UserBlueprint.render(users, view: :normal)
     end
     
     def create
@@ -18,7 +18,7 @@ class UsersController < ApplicationController
     end
 
     def show
-        render json: UserBlueprint.render(user, view: :normal), status: :ok
+        render json: UserBlueprint.render(user, view: :extended), status: :ok
     end
 
     def update

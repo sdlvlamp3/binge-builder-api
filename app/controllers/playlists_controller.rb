@@ -1,38 +1,38 @@
 class PlaylistsController < ApplicationController
+    
+    before_action :set_playlist, only: [:show, :update, :destroy] 
+    
     def index
         playlists = Playlist.all
-        render json: playlists
+        render json: PlaylistBlueprint.render(playlsit, view: :normal)
     end
 
     def show
-        playlists = Playlist.find(params[:id])
-        render json: playlists
+        render json: PlaylistBlueprint.render(playlsit, view: :extended)
     end
     
     def create
-        playlist = current_user.playlists.new(playlist_params.except(:user_id))
+        playlist = current_user.playlists.new(playlist_params)
         if playlist.save
-            render json: playlist
+            render json: PlaylistBlueprint.render(playlsit, view: :normal), status: :ok
         else
-            render json: { error: 'Unable to create playlist.' }
+            render json: { error: 'Unable to create playlist.' }, status: :unprocessable_entity
         end
     end
 
     def update
-        playlists = Playlist.find(params[:id])
         if playlist.update(playlist_params)
-             render json: playlists
+             render json: PlaylistBlueprint.render(playlsit, view: :normal)
         else
             render json: { error: 'Unable to update playlist.' }
         end
     end
 
     def destroy
-        playlists = Playlist.find(params[:id])
         if playlists.destroy
             render json: { message: 'Successfully deleted playlist.' }
         else
-            render json: { error: 'Unable to delete playlist.' }
+            render json: { error: 'Unable to delete playlist.' }, status: :unprocessable_entity
         end
     end
 
@@ -40,6 +40,10 @@ class PlaylistsController < ApplicationController
 
     def playlist_params
         params.permit(:title, :description, :user_id)
+    end
+
+    def set_playlist
+        playlist = Playlist.find(params[:id])
     end
 end
 

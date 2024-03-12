@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
-class UserBlueprint < Blueprinter::Base
+class MovieShowBlueprint < Blueprinter::Base
     identifier :id
 
     view :normal do
-        fields :username
+        fields :title, :description, :release_date
     end
 
     view :extended do
         include_view :normal
-        fields :email, :created_at, :updated_at
+        fields :created_at, :updated_at
     end
 end

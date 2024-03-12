@@ -4,9 +4,16 @@ class SessionsController < ApplicationController
     if user&.authenicate(params[:password])
       token = jwt_encode(user_id: user.id)
       render json: { token: token }, status: :ok
+      session[:user_id] = user.id
     else
       render json: { error: 'Invalid username or password'}, status: :unauthorized
     end
+  end
+
+
+  def destroy
+    session[:user_id] = nil
+    render json: { message: 'Logged out.'}
   end
 
   private
