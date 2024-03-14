@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_04_192345) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_12_200742) do
   create_table "MovieShow_Genres", force: :cascade do |t|
     t.integer "movie_show_id", null: false
     t.integer "genre_id", null: false
@@ -58,6 +58,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_04_192345) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "email"
+    t.string "password_digest"
   end
 
   add_foreign_key "MovieShow_Genres", "genres"

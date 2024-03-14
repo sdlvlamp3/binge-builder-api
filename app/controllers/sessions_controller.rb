@@ -1,25 +1,18 @@
 class SessionsController < ApplicationController
   def create
     user = User.find_by(username: params[:username])
-    if user&.authenicate(params[:password])
+    if user&.authenticate(params[:password])
       token = jwt_encode(user_id: user.id)
       render json: { token: token }, status: :ok
-      session[:user_id] = user.id
     else
       render json: { error: 'Invalid username or password'}, status: :unauthorized
     end
-  end
-
-
-  def destroy
-    session[:user_id] = nil
-    render json: { message: 'Logged out.'}
   end
 
   private
 
   def jwt_encode(payload, exp = 24.hours.from_now)
     payload[:exp] = exp.to_i
-    JWT.encode(payload, Rails.application.secrets.secret_key_base)
+    JWT.encode(payload, Rails.application.credentials.secret_key_base)
   end
 end
